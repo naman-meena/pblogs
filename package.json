@@ -1,0 +1,9 @@
+{
+  "name": "pblogs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/build.mjs && npx --yes http-server _site -p 8080"
+  }
+}

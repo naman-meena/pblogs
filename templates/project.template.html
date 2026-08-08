@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} — PBlogs</title>
+<meta name="description" content="{{SUMMARY}}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📓</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../">PBlogs</a>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
+      <span aria-hidden="true">◐</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <article class="wrap project-detail">
+    <a class="back-link" href="../">← All projects</a>
+
+    <header class="project-header">
+      <span class="badge badge-{{STATUS_CLASS}}">{{STATUS_LABEL}}</span>
+      <h1>{{TITLE}}</h1>
+      <p class="project-summary">{{SUMMARY}}</p>
+      <div class="project-meta">
+        <time datetime="{{DATE_ISO}}">{{DATE_DISPLAY}}</time>
+        {{TAGS_HTML}}
+      </div>
+      {{LINK_HTML}}
+    </header>
+
+    <div class="prose">
+{{CONTENT_HTML}}
+    </div>
+
+    <a class="back-link back-link-bottom" href="../">← All projects</a>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built and generated automatically from <code>projects/*.md</code>.</p>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

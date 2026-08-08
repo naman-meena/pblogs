@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PBlogs — Naman's Projects</title>
+<meta name="description" content="A running log of ongoing and completed projects.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📓</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="./">PBlogs</a>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
+      <span aria-hidden="true">◐</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero wrap">
+    <h1>Projects, as they happen</h1>
+    <p class="hero-sub">A catalogue of things I'm building — ongoing and completed. Each entry is written as I go.</p>
+  </section>
+
+  <section class="wrap controls" aria-label="Filter projects">
+    <div class="filter-chips" role="group" aria-label="Filter by status">
+      <button class="chip is-active" data-filter="all" type="button">All <span class="chip-count">{{COUNT_ALL}}</span></button>
+      <button class="chip" data-filter="ongoing" type="button">Ongoing <span class="chip-count">{{COUNT_ONGOING}}</span></button>
+      <button class="chip" data-filter="completed" type="button">Completed <span class="chip-count">{{COUNT_COMPLETED}}</span></button>
+    </div>
+    <input id="search" class="search" type="search" placeholder="Search projects or tags…" aria-label="Search projects">
+  </section>
+
+  <section class="wrap">
+    <div id="project-grid" class="project-grid">
+{{PROJECT_CARDS}}
+    </div>
+    <p id="no-results" class="no-results" hidden>No projects match your search.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built and generated automatically from <code>projects/*.md</code>. Last updated {{BUILD_DATE}}.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
