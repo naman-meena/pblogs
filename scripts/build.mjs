@@ -5,7 +5,7 @@
 // and projects/<slug>/index.html. No dependencies, no server, no client-side
 // fetching of markdown at runtime.
 
-import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync, rmSync, copyFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync, rmSync, copyFileSync, cpSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -284,6 +284,10 @@ function copyStaticAssets() {
   for (const file of files) {
     const src = path.join(ROOT, file);
     if (existsSync(src)) copyFileSync(src, path.join(OUT_DIR, file));
+  }
+  const imagesDir = path.join(ROOT, "images");
+  if (existsSync(imagesDir)) {
+    cpSync(imagesDir, path.join(OUT_DIR, "images"), { recursive: true });
   }
 }
 
