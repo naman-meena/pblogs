@@ -1,6 +1,6 @@
 ---
 title: Label-Free Warm-Start Learning for Newton-Raphson Power Flow
-summary: A self-supervised graph attention model that gives Newton-Raphson power flow a better starting point, with no converged solutions needed for training.
+summary: A self supervised graph attention model that gives Newton-Raphson power flow a better starting point, with no converged solutions needed for training.
 date: 2026-08-09
 status: completed
 tags: power-systems, graph-attention-networks, self-supervised-learning, primal-dual, research
