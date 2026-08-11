@@ -5,6 +5,7 @@ date: 2025-06-21
 status: completed
 tags: power-systems, machine-learning, gaussian-processes, neural-networks, ieee-33-bus
 link: https://github.com/naman-meena/Comparative-Analysis-of-Gaussian_Process-and-Neural_Network-Models-for-Power-Flow
+report: https://drive.google.com/file/d/1XTDM8wLmRrblIc-k79pLmj3FaIHYZI_9/view?usp=sharing
 ---
 
 ## What this project is

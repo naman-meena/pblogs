@@ -215,6 +215,7 @@ function loadProjects() {
       status: status === "completed" ? "completed" : "ongoing",
       tags,
       link: data.link || "",
+      report: data.report || "",
       contentHtml: markdownToHtml(content),
     };
   });
@@ -263,6 +264,9 @@ function buildProjectPage(project) {
   const linkHtml = project.link
     ? `<a class="project-link" href="${project.link}" target="_blank" rel="noopener noreferrer">View project ↗</a>`
     : "";
+  const reportHtml = project.report
+    ? `<a class="project-link" href="${project.report}" target="_blank" rel="noopener noreferrer">View report ↗</a>`
+    : "";
   const out = template
     .replace(/{{TITLE}}/g, escapeHtml(project.title))
     .replace(/{{SUMMARY}}/g, escapeHtml(project.summary))
@@ -272,6 +276,7 @@ function buildProjectPage(project) {
     .replace("{{DATE_DISPLAY}}", formatDate(project.date))
     .replace("{{TAGS_HTML}}", renderTagsHtml(project.tags))
     .replace("{{LINK_HTML}}", linkHtml)
+    .replace("{{REPORT_HTML}}", reportHtml)
     .replace("{{CONTENT_HTML}}", project.contentHtml);
 
   const dir = path.join(OUT_DIR, "projects", project.slug);

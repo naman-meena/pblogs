@@ -328,6 +328,12 @@ a { text-decoration-color: var(--border); text-underline-offset: 3px; }
   font-size: 0.82rem;
   margin-bottom: 1rem;
 }
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
 .project-link {
   display: inline-block;
   background: var(--accent);
@@ -338,7 +344,6 @@ a { text-decoration-color: var(--border); text-underline-offset: 3px; }
   font-size: 0.85rem;
   font-weight: 700;
   border: 2px solid var(--ink);
-  margin-bottom: 1rem;
 }
 .project-link:hover { opacity: 0.88; }
 
