@@ -133,10 +133,6 @@ a { text-decoration-color: var(--border); text-underline-offset: 3px; }
   .layout {
     grid-template-columns: 1fr;
   }
-  .about-col {
-    position: static;
-    order: -1;
-  }
 }
 
 /* ---------- About panel ---------- */
@@ -435,4 +431,11 @@ a { text-decoration-color: var(--border); text-underline-offset: 3px; }
 /* ---------- Motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+}
+
+/* ---------- Responsive: stack about panel after projects on small screens ---------- */
+@media (max-width: 60rem) {
+  .about-col {
+    position: static;
+  }
 }
