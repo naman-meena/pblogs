@@ -392,6 +392,44 @@ a { text-decoration-color: var(--border); text-underline-offset: 3px; }
 .prose img {
   border: 2px solid var(--ink);
 }
+/* Figures. The charts and the architecture diagram are rendered from LaTeX/PDF
+   on a white canvas, so the frame stays white in both themes and only the
+   caption follows the page palette. */
+.prose figure {
+  margin: 2rem 0;
+}
+.prose figure img {
+  background: #ffffff;
+  padding: 0.75rem;
+  width: 100%;
+}
+.prose figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+/* The pipeline diagram is far wider than it is tall. Break it out of the
+   narrow prose column on wide screens, and let it scroll rather than shrink
+   its labels into illegibility on narrow ones. */
+.prose figure.figure-wide {
+  overflow-x: auto;
+}
+.prose figure.figure-wide img {
+  min-width: 900px;
+}
+@media (min-width: 60rem) {
+  .prose figure.figure-wide {
+    width: min(65rem, calc(100vw - 3rem));
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+  .prose figure.figure-wide figcaption {
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+}
 .prose hr {
   border: none;
   border-top: 2px solid var(--border);

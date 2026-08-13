@@ -94,6 +94,30 @@ function markdownToHtml(md) {
       continue;
     }
 
+    // figure: an image alone on a line, with the next non-blank line as its
+    // caption. A trailing {wide} marks an oversized diagram that should scroll
+    // rather than shrink on narrow screens.
+    const figure = line.trim().match(/^!\[([^\]]*)\]\(([^)\s]+)\)(\{wide\})?$/);
+    if (figure) {
+      flushParagraph();
+      closeList();
+      const [, alt, src, wide] = figure;
+      i++;
+      const captionLines = [];
+      while (i < lines.length && lines[i].trim()) {
+        captionLines.push(lines[i].trim());
+        i++;
+      }
+      const caption = captionLines.length
+        ? `<figcaption>${renderInline(captionLines.join(" "))}</figcaption>`
+        : "";
+      const figClass = wide ? "figure figure-wide" : "figure";
+      html.push(
+        `<figure class="${figClass}"><img src="${src}" alt="${escapeHtml(alt)}" loading="lazy">${caption}</figure>`
+      );
+      continue;
+    }
+
     // heading
     const heading = line.match(/^(#{1,6})\s+(.*)$/);
     if (heading) {
