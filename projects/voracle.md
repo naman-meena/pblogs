@@ -1,5 +1,5 @@
 ---
-title: Oracle
+title: Voracle
 summary: Vulnerability assessment for IEC 61850 device documents.
 date: 2026-04-30
 status: completed
