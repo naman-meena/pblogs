@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="512" viewBox="0 0 600 512" font-family="Georgia, 'Times New Roman', Times, serif" fill="#111111">
+  <rect x="0" y="0" width="600" height="512" fill="#ffffff"/>
+
+  <!-- algorithm float rules -->
+  <line x1="8" y1="4" x2="592" y2="4" stroke="#111111" stroke-width="3"/>
+  <line x1="8" y1="44" x2="592" y2="44" stroke="#111111" stroke-width="1.2"/>
+  <line x1="8" y1="502" x2="592" y2="502" stroke="#111111" stroke-width="3"/>
+
+  <!-- title -->
+  <text x="8" y="32" font-size="17"><tspan font-weight="bold">Algorithm 1</tspan> End-to-End IOP Vulnerability Assessment Workflow</text>
+
+  <!-- loop indent bars -->
+  <line x1="56" y1="182" x2="56" y2="234" stroke="#111111" stroke-width="1"/>
+  <line x1="56" y1="390" x2="56" y2="416" stroke="#111111" stroke-width="1"/>
+
+  <g font-size="17">
+    <!-- preamble -->
+    <text x="14" y="68"><tspan font-weight="bold">Require:</tspan> Device PDF <tspan font-style="italic">P</tspan>, CVE source <tspan font-style="italic">C</tspan>, retrieval size <tspan font-style="italic">k</tspan></text>
+    <text x="14" y="94"><tspan font-weight="bold">Ensure:</tspan> Ranked assessment report <tspan font-style="italic">R</tspan></text>
+
+    <!-- line numbers -->
+    <g text-anchor="end" font-size="13">
+      <text x="34" y="120">1:</text>
+      <text x="34" y="146">2:</text>
+      <text x="34" y="172">3:</text>
+      <text x="34" y="198">4:</text>
+      <text x="34" y="224">5:</text>
+      <text x="34" y="250">6:</text>
+      <text x="34" y="276">7:</text>
+      <text x="34" y="302">8:</text>
+      <text x="34" y="328">9:</text>
+      <text x="34" y="354">10:</text>
+      <text x="34" y="380">11:</text>
+      <text x="34" y="406">12:</text>
+      <text x="34" y="432">13:</text>
+      <text x="34" y="458">14:</text>
+      <text x="34" y="484">15:</text>
+    </g>
+
+    <!-- body -->
+    <text x="46" y="120"><tspan font-style="italic">T</tspan> &#8592; ExtractTextFromPDF(<tspan font-style="italic">P</tspan>)</text>
+    <text x="46" y="146">{<tspan font-style="italic">t</tspan><tspan font-size="12" dy="4" font-style="italic">i</tspan><tspan dy="-4">} &#8592; ChunkByTokens(</tspan><tspan font-style="italic">T</tspan>)</text>
+    <text x="46" y="172"><tspan font-weight="bold">for all</tspan> <tspan font-style="italic">t</tspan><tspan font-size="12" dy="4" font-style="italic">i</tspan><tspan dy="-4" font-weight="bold">&#160;do</tspan></text>
+    <text x="66" y="198"><tspan font-style="italic">f</tspan><tspan font-size="12" dy="4" font-style="italic">i</tspan><tspan dy="-4">&#160;&#8592; LLMExtractJSON(</tspan><tspan font-style="italic">t</tspan><tspan font-size="12" dy="4" font-style="italic">i</tspan><tspan dy="-4">)</tspan></text>
+    <text x="66" y="224"><tspan font-style="italic">f</tspan><tspan font-size="12" dy="4" font-style="italic">i</tspan><tspan dy="-4">&#160;&#8592; ValidateAndClean(</tspan><tspan font-style="italic">f</tspan><tspan font-size="12" dy="4" font-style="italic">i</tspan><tspan dy="-4">)</tspan></text>
+    <text x="46" y="250" font-weight="bold">end for</text>
+    <text x="46" y="276"><tspan font-style="italic">F</tspan> &#8592; MergeFeatures({<tspan font-style="italic">f</tspan><tspan font-size="12" dy="4" font-style="italic">i</tspan><tspan dy="-4">})</tspan></text>
+    <text x="46" y="302"><tspan font-style="italic">I</tspan> &#8592; BuildOrLoadRetriever(<tspan font-style="italic">C</tspan>)</text>
+    <text x="46" y="328"><tspan font-style="italic">q</tspan> &#8592; ConstructDeviceQuery(<tspan font-style="italic">F</tspan>)</text>
+    <text x="46" y="354"><tspan font-style="italic">M</tspan> &#8592; RetrieveTopK(<tspan font-style="italic">q</tspan>, <tspan font-style="italic">I</tspan>, <tspan font-style="italic">k</tspan>)</text>
+    <text x="46" y="380"><tspan font-weight="bold">for all</tspan> <tspan font-style="italic">m</tspan><tspan font-size="12" dy="4" font-style="italic">j</tspan><tspan dy="-4">&#160;&#8712; </tspan><tspan font-style="italic">M</tspan> <tspan font-weight="bold">do</tspan></text>
+    <text x="66" y="406"><tspan font-style="italic">R</tspan><tspan font-size="12" dy="4" font-style="italic">j</tspan><tspan dy="-4">&#160;&#8592; Similarity(</tspan><tspan font-style="italic">m</tspan><tspan font-size="12" dy="4" font-style="italic">j</tspan><tspan dy="-4">) &#215; CVSS(</tspan><tspan font-style="italic">m</tspan><tspan font-size="12" dy="4" font-style="italic">j</tspan><tspan dy="-4">)</tspan></text>
+    <text x="46" y="432" font-weight="bold">end for</text>
+    <text x="46" y="458"><tspan font-style="italic">R</tspan> &#8592; RankAndSummarize(<tspan font-style="italic">M</tspan>, {<tspan font-style="italic">R</tspan><tspan font-size="12" dy="4" font-style="italic">j</tspan><tspan dy="-4">})</tspan></text>
+    <text x="46" y="484"><tspan font-weight="bold">return</tspan> <tspan font-style="italic">R</tspan></text>
+  </g>
+</svg>
