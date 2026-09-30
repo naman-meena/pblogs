@@ -95,13 +95,15 @@ function markdownToHtml(md) {
     }
 
     // figure: an image alone on a line, with the next non-blank line as its
-    // caption. A trailing {wide} marks an oversized diagram that should scroll
-    // rather than shrink on narrow screens.
-    const figure = line.trim().match(/^!\[([^\]]*)\]\(([^)\s]+)\)(\{wide\})?$/);
+    // caption. A trailing modifier sets the sizing: {wide} marks an oversized
+    // diagram that should scroll rather than shrink on narrow screens, and
+    // {narrow} caps a tall single-column exhibit so it does not dominate the
+    // prose. Each maps to a figure-<name> class.
+    const figure = line.trim().match(/^!\[([^\]]*)\]\(([^)\s]+)\)(?:\{(wide|narrow)\})?$/);
     if (figure) {
       flushParagraph();
       closeList();
-      const [, alt, src, wide] = figure;
+      const [, alt, src, variant] = figure;
       i++;
       const captionLines = [];
       while (i < lines.length && lines[i].trim()) {
@@ -111,7 +113,7 @@ function markdownToHtml(md) {
       const caption = captionLines.length
         ? `<figcaption>${renderInline(captionLines.join(" "))}</figcaption>`
         : "";
-      const figClass = wide ? "figure figure-wide" : "figure";
+      const figClass = variant ? `figure figure-${variant}` : "figure";
       html.push(
         `<figure class="${figClass}"><img src="${src}" alt="${escapeHtml(alt)}" loading="lazy">${caption}</figure>`
       );

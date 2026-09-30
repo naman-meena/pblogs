@@ -430,6 +430,17 @@ a { text-decoration-color: var(--border); text-underline-offset: 3px; }
     margin-inline: auto;
   }
 }
+/* A tall single-column exhibit lifted straight from the paper (the algorithm
+   float). At full prose width it would run well over a screen high, so cap it
+   and centre it to keep the proportions of a paper column. */
+.prose figure.figure-narrow img {
+  max-width: 30rem;
+  margin-inline: auto;
+}
+.prose figure.figure-narrow figcaption {
+  max-width: 30rem;
+  margin-inline: auto;
+}
 .prose hr {
   border: none;
   border-top: 2px solid var(--border);

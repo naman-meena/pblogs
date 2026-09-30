@@ -126,49 +126,49 @@ warm starting stays small.
 
 ## The training loop
 
-The whole procedure fits on one page. One call performs a round of primal updates against
-frozen multipliers, then a round of dual updates against a frozen dual reference, then
-refreshes the penalty weight. Below, `w` are the primal weights and `phi` the dual weights,
-so `theta` keeps its usual meaning of voltage angle.
+The whole procedure fits on one page. A single call performs a round of primal updates
+against frozen multipliers, then a round of dual updates against a frozen dual reference,
+then refreshes the penalty weight before handing control back to the outer loop.
 
-```
-Algorithm 1   Self-supervised primal-dual training loop
+![Algorithm 1 from the paper, the self-supervised primal-dual training loop, in 24 numbered lines: a primal phase that estimates the grid state and descends on the augmented Lagrangian, a frozen dual checkpoint, a dual phase that regresses the multipliers onto dual-ascent targets, and a closing penalty update.](../../images/pdl-warm-start-power-flow/algorithm_pdl.png){narrow}
+Algorithm 1 as it appears in the paper. One caution on notation before reading it: inside
+this listing the subscript on the model names refers to network weights, so there the primal
+weights are written as the Greek theta and the dual weights as phi. In the state vector on
+line 3 the same theta symbol carries its usual power-systems meaning of voltage angle. The
+two uses sit next to each other on that line.
 
-Input : demand profiles (Pd, Qd); primal epochs K_p; dual epochs K_d;
-        penalty weight rho
-Output: updated PrimalGAT_w, updated DualGAT_phi, worst residual V_max
+The listing breaks into four movements.
 
- 1  for iter = 1 .. K_p:                          # primal phase
- 2      for each minibatch (Pm, Qm):
- 3          x      <- PrimalGAT_w(Pm, Qm)         # x = [Pg, Qg, V, theta]
- 4          lam    <- DualGAT_phi(Pm, Qm)         # evaluated, no grad tracking
- 5          r      <- PhysicsLayer(x, Ybus, Pm, Qm)     # r = [r_P ; r_Q]
- 6          L_pri  <- E[ lam' r + (rho/2) * ||r||^2 ]
- 7          update w by gradient descent on L_pri
+- **Lines 1 to 11, the primal phase.** For each minibatch of demand profiles the primal
+network estimates the complete grid state on line 3. Line 4 evaluates the current multipliers
+but explicitly without gradient tracking, which is the detail that makes this an alternating
+scheme rather than one joint optimization: during the primal phase the dual network acts as a
+fixed weighting, not as something being trained. Lines 5 and 6 push the state through the
+differentiable physics layer, which is the only place the admittance matrix enters, and
+return the power-balance residual. Lines 7 and 8 assemble the augmented Lagrangian from that
+residual, combining the multiplier term with the quadratic penalty, and line 9 descends on
+it. Nothing in this block reads a stored solution, which is the entire point. The training
+signal is manufactured on the spot from the network's own guess and the physics.
+- **Lines 12 and 13, the freeze.** Before the dual network is touched, a copy of it is
+snapshotted and evaluated on the full demand set to produce the reference multipliers. This
+is what stops the dual regression from chasing a target it is itself moving.
+- **Lines 14 to 20, the dual phase.** The targets on line 16 are the classical dual-ascent
+step, the frozen multipliers shifted by the current residual scaled by the penalty weight.
+Note that the residual is taken on a detached state, so the primal network receives no
+gradient here. Line 18 then fits the dual network to those targets by mean squared error. In
+effect the dual network is being taught to predict, for any load profile, how hard each bus
+constraint needs to be pushed.
+- **Lines 21 to 24, the penalty update.** The largest violation anywhere in the system is
+measured through the infinity norm of the two residual blocks, and line 23 feeds it to the
+adaptive rule: if the worst residual has not fallen by the required factor since the last
+check, the penalty weight is scaled up towards its ceiling. Over the run this steadily shifts
+the balance away from the multiplier term and towards the quadratic one, tightening the
+constraint as the estimate improves.
 
- 8  phi_old <- phi                                # freeze the dual reference
- 9  lam_old <- DualGAT_phi_old(Pd, Qd)
-
-10  for iter = 1 .. K_d:                          # dual phase
-11      for each minibatch (Pm, Qm):
-12          lam_target <- lam_old,m + rho * r(detach(x))
-13          lam_phi    <- DualGAT_phi(Pm, Qm)
-14          update phi by minimizing 0.5 * ||lam_phi - lam_target||^2
-
-15  V_max <- max( ||r_P||_inf , ||r_Q||_inf )      # worst violation
-16  if V_max > tau * V_max(previous check):        # residual has stalled
-17      rho <- min( alpha * rho , rho_max )        # tighten the penalty
-
-18  return L_pri, V_max
-```
-
-Lines 3 to 7 are where the label-free part lives: the state comes out of the network, the
-residual comes out of the physics, and the loss is assembled from the two with no reference
-solution involved anywhere. Line 4 evaluates the multipliers without gradients, so the dual
-network acts as a fixed weighting during the primal phase. Line 8 is the frozen checkpoint
-that keeps the dual regression from drifting. Lines 16 and 17 are the adaptive penalty rule,
-which gradually shifts the balance from the multiplier term towards the quadratic one
-whenever progress stalls.
+Two properties are worth pulling out. First, no line of this loop requires a converged
+Newton-Raphson solution, so the circularity described earlier never arises. Second, only the
+primal network survives into deployment. Everything the dual network learns is scaffolding
+used to shape the primal network's loss during training, and at inference it is discarded.
 
 ## How we tested it
 
